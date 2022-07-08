@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.student">
+
+	<resultMap id="student_result" type="Student_VO">
+		<result property="university_number" column="university_number" />
+		<result property="name" column="name" />  <!-- property 클래스  column: 데이터베이스 -->
+		<result property="major" column="category_name" />
+		<result property="grade" column="category_name" />
+		<result property="possfer" column="Professor_name" />
+		<result property="sex" column="category_name" />
+	</resultMap>
+
+	<select id="select" parameterType="String"
+		resultMap="student_result">
+		select * from
+		student where university_number = #{id}
+	</select>
+	
+	<select id="selectAll" resultMap="student_result"	>
+	<![CDATA[
+		select s.university_number,s.name,major.category_name,grade.category_name, p.Professor_name,sex.category_name from student as s 
+				join major_information as major  on s.major_number = major.code 
+				 join student_grade as grade on grade.code = s.grade 
+				 join student_sex as sex on sex.code = s.sex 
+				 join professor as p on p.Professor_number =  s.Professor_number where university_number = #{univer_number}
+	]]>
+	</select>
+
+</mapper>
